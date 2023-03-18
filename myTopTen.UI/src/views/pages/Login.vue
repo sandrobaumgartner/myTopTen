@@ -32,11 +32,6 @@
                     <CCol :xs="6">
                       <CButton color="primary" class="px-4"> Login </CButton>
                     </CCol>
-                    <CCol :xs="6" class="text-right">
-                      <CButton color="link" class="px-0">
-                        Forgot password?
-                      </CButton>
-                    </CCol>
                   </CRow>
                 </CForm>
               </CCardBody>
@@ -45,13 +40,14 @@
               <CCardBody class="text-center">
                 <div>
                   <h2>Sign up</h2>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
-                  </p>
-                  <CButton color="light" variant="outline" class="mt-3">
-                    Register Now!
+                  <p>Don't have an account yet? Sign up!</p>
+                  <CButton
+                    v-on:click="navigateToRegisterPage"
+                    color="light"
+                    variant="outline"
+                    class="mt-3"
+                  >
+                    Register
                   </CButton>
                 </div>
               </CCardBody>
@@ -64,7 +60,14 @@
 </template>
 
 <script>
+import router from '@/router'
+
 export default {
   name: 'Login',
+  methods: {
+    navigateToRegisterPage() {
+      router.push('/pages/register')
+    },
+  },
 }
 </script>

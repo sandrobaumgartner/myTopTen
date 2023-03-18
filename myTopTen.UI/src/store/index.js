@@ -1,6 +1,10 @@
 import { createStore } from 'vuex'
+import userManagement from './userManagement'
 
 export default createStore({
+  modules: {
+    userManagement,
+  },
   state: {
     sidebarVisible: '',
     sidebarUnfoldable: false,
@@ -17,5 +21,4 @@ export default createStore({
     },
   },
   actions: {},
-  modules: {},
 })
