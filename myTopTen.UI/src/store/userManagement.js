@@ -25,7 +25,18 @@ export default {
             resolve()
           })
           .catch((error) => {
-            console.log("store errors")
+            reject(error)
+          })
+      })
+    },
+    async logout() {
+      return new Promise((resolve, reject) => {
+        axios
+          .get('/auth/signout')
+          .then(() => {
+            resolve()
+          })
+          .catch((error) => {
             reject(error)
           })
       })
@@ -33,9 +44,7 @@ export default {
     async test() {
       return new Promise((resolve, reject) => {
         axios
-          .get('/test/user', {
-            withCredentials: true,
-          })
+          .get('/test/user')
           .then(() => {
             resolve()
           })

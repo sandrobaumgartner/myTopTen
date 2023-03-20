@@ -23,6 +23,7 @@
                         <CIcon icon="cil-user" />
                       </CInputGroupText>
                       <CFormInput
+                        v-on:keydown.enter="login"
                         v-model="username"
                         placeholder="Username"
                         autocomplete="username"
@@ -33,6 +34,7 @@
                         <CIcon icon="cil-lock-locked" />
                       </CInputGroupText>
                       <CFormInput
+                        v-on:keydown.enter="login"
                         v-model="password"
                         type="password"
                         placeholder="Password"
@@ -55,14 +57,14 @@
               </CCard>
               <CCard class="text-white bg-primary py-5" style="width: 44%">
                 <CCardBody class="text-center">
-                  <div>
+                  <div class="mt-4">
                     <h2>Sign up</h2>
                     <p>Don't have an account yet? Sign up!</p>
                     <CButton
                       v-on:click="navigateToRegisterPage"
                       color="light"
                       variant="outline"
-                      class="mt-3"
+                      class="mt-1"
                     >
                       Register
                     </CButton>
