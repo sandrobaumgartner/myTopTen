@@ -4,7 +4,7 @@
       <button
         type="button"
         class="btn-close"
-        v-on:click="toggleShowError"
+        v-on:click="disableErrorMessage"
       ></button>
       {{ errorResponseMessage }}
     </div>
@@ -140,18 +140,39 @@ export default {
         password: this.password,
         role: ['user'],
       }
+
       this.$store
         .dispatch('userManagement/register', userData)
-        .then((response) => {
-          console.log(response)
+        .then(() => {
+          let userCredentials = {
+            username: userData.username,
+            password: userData.password,
+          }
+
+          this.$store
+            .dispatch('userManagement/login', userCredentials)
+            .then(() => {
+              this.$store.dispatch('userManagement/test')
+            })
+            .catch((error) => {
+              this.errorResponseMessage = error.response.data.message
+              this.showErrorMessage()
+            })
         })
         .catch((error) => {
-          this.errorResponseMessage = error.response.data.message
-          this.toggleShowError()
+          if (error && error.code === 'ERR_NETWORK') {
+            this.errorResponseMessage = "Network error! Couldn't reach server!"
+          } else {
+            this.errorResponseMessage = error.response.data.message
+          }
+          this.showErrorMessage()
         })
     },
-    toggleShowError() {
-      this.showError = !this.showError
+    showErrorMessage() {
+      this.showError = true
+    },
+    disableErrorMessage() {
+      this.showError = false
     },
   },
 }

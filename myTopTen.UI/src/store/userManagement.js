@@ -6,14 +6,42 @@ export default {
   mutations: {},
   actions: {
     async register(state, userData) {
-      await axios
-        .post('/auth/signup', userData)
-        .then((response) => {
-          return Promise.resolve(response.data)
-        })
-        .catch((error) => {
-          return Promise.reject(error)
-        })
+      return new Promise((resolve, reject) => {
+        axios
+          .post('/auth/signup', userData)
+          .then(() => {
+            resolve()
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
+    },
+    async login(state, userCredentials) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post('/auth/signin', userCredentials)
+          .then(() => {
+            resolve()
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
+    },
+    async test() {
+      return new Promise((resolve, reject) => {
+        axios
+          .get('/test/user', {
+            withCredentials: true,
+          })
+          .then(() => {
+            resolve()
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
     },
   },
 }
