@@ -25,6 +25,7 @@ export default {
             resolve()
           })
           .catch((error) => {
+            console.log("store errors")
             reject(error)
           })
       })

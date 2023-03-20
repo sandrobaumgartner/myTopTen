@@ -78,16 +78,17 @@
 
 <script>
 import validator from 'validator'
+import router from '@/router'
 
 export default {
   name: 'Register',
   data() {
     return {
       isValidForm: false,
-      username: 'sandro',
-      email: 'test@test.com',
-      password: 'asdf',
-      repeatedPassword: 'asdf',
+      username: '',
+      email: '',
+      password: '',
+      repeatedPassword: '',
       errorResponseMessage: '',
       showError: false,
     }
@@ -152,7 +153,7 @@ export default {
           this.$store
             .dispatch('userManagement/login', userCredentials)
             .then(() => {
-              this.$store.dispatch('userManagement/test')
+              router.push('/home')
             })
             .catch((error) => {
               this.errorResponseMessage = error.response.data.message
