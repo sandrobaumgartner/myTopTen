@@ -37,11 +37,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_movie",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "movie_id"))
-    private Set<Movie> movies = new HashSet<>();
+    @OneToMany(mappedBy = "movie")
+    private Set<UserMovie> userMovies = new HashSet<>();
 
     public User() {
     }
@@ -92,11 +89,11 @@ public class User {
         this.roles = roles;
     }
 
-    public Set<Movie> getMovies() {
-        return movies;
+    public Set<UserMovie> getUserMovies() {
+        return userMovies;
     }
 
-    public void setMovies(Set<Movie> movies) {
-        this.movies = movies;
+    public void setUserMovies(Set<UserMovie> userMovies) {
+        this.userMovies = userMovies;
     }
 }
