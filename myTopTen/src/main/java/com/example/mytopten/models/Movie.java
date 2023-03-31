@@ -5,10 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "movie",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "title")
-        })
+@Table(name = "movie")
 public class Movie {
 
     @Id
@@ -19,9 +16,11 @@ public class Movie {
     @Size(max = 255)
     private String title;
 
-    @NotBlank
     @Size(max = 255)
     private String genre;
+
+    @Column
+    private int releaseYear;
 
     public Movie() {
     }
@@ -29,6 +28,12 @@ public class Movie {
     public Movie(String title, String genre) {
         this.title = title;
         this.genre = genre;
+    }
+
+    public Movie(String title, String genre, int releaseYear) {
+        this.title = title;
+        this.genre = genre;
+        this.releaseYear = releaseYear;
     }
 
     public Long getId() {
@@ -53,5 +58,13 @@ public class Movie {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
     }
 }
