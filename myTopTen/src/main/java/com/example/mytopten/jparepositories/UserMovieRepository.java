@@ -14,5 +14,6 @@ public interface UserMovieRepository extends JpaRepository<UserMovie, Long> {
 
     @Query("SELECT m FROM UserMovie um INNER JOIN Movie m ON um.movie.id = m.id WHERE um.user.id = :userId")
     Optional<List<Movie>> findMoviesByUserId(Long userId);
+    @SuppressWarnings("unchecked")
     UserMovie save(UserMovie userMovie);
 }
