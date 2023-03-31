@@ -12,7 +12,6 @@ import java.util.Optional;
 public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     Optional<Movie> findById(Long id);
-
     @Query("SELECT m FROM Movie m WHERE LOWER(m.title) LIKE LOWER(CONCAT('%', :partOfTitle,'%'))")
     Optional<List<Movie>> getMoviesByPartOfTitle(String partOfTitle);
 }

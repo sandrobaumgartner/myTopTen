@@ -2,9 +2,15 @@ package com.example.mytopten.controllers;
 
 import com.example.mytopten.jparepositories.MovieRepository;
 import com.example.mytopten.jparepositories.UserMovieRepository;
+import com.example.mytopten.jparepositories.UserRepository;
 import com.example.mytopten.models.Movie;
+import com.example.mytopten.models.User;
+import com.example.mytopten.models.UserMovie;
+import com.example.mytopten.models.UserMovieModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @CrossOrigin(origins = "${myTopTen.app.cors}")
@@ -16,9 +22,12 @@ public class TestController {
 
     private final MovieRepository movieRepository;
 
-    public TestController(UserMovieRepository userMovieRepository, MovieRepository movieRepository) {
+    private final UserRepository userRepository;
+
+    public TestController(UserMovieRepository userMovieRepository, MovieRepository movieRepository, UserRepository userRepository) {
         this.userMovieRepository = userMovieRepository;
         this.movieRepository = movieRepository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/all")
@@ -50,6 +59,18 @@ public class TestController {
 
     @GetMapping("/moviesByPartOfTitle")
     public List<Movie> getMoviesByPartOfTitle(@RequestParam String partOfTitle) {
-        return movieRepository.getMoviesByPartOfTitle(partOfTitle).orElseThrow(() -> new RuntimeException("Error"));
+        return movieRepository.getMoviesByPartOfTitle(partOfTitle)
+                .orElseThrow(() -> new RuntimeException("No movie found with containing string!"));
+    }
+
+    @PostMapping("/addMovieToList")
+    @ResponseStatus(HttpStatus.OK)
+    public void addUserMovie(@RequestBody UserMovieModel userMovieModel) {
+        User user = userRepository.findById(userMovieModel.getUserId())
+                .orElseThrow(() -> new RuntimeException("No user with id (" + userMovieModel.getUserId() + ") found!"));
+        Movie movie = movieRepository.findById(userMovieModel.getMovieId())
+                .orElseThrow(() -> new RuntimeException("No movie with id (" + userMovieModel.getMovieId() + ") found!"));
+        UserMovie userMovie = new UserMovie(user, movie, userMovieModel.getPosition());
+        userMovieRepository.save(userMovie);
     }
 }
