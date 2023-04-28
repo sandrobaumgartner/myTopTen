@@ -8,6 +8,8 @@ import com.example.mytopten.models.MoviePositionModel;
 import com.example.mytopten.models.User;
 import com.example.mytopten.models.UserMovie;
 import com.example.mytopten.security.services.UserDetailsImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,7 +49,8 @@ public class MovieController {
     @GetMapping("/byPartOfTitle")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public List<Movie> getMoviesByPartOfTitle(@RequestParam String partOfTitle) {
-        return movieRepository.getMoviesByPartOfTitle(partOfTitle)
+        Pageable pageable = PageRequest.of(0, 10);
+        return movieRepository.getMoviesByPartOfTitle(partOfTitle, pageable)
                 .orElseThrow(() -> new RuntimeException("No movie found with containing string!"));
     }
 

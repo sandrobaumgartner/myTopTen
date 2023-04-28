@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     navigateToRegisterPage() {
-      router.push('/pages/register')
+      router.push('/register')
     },
     login() {
       let userCredentials = {

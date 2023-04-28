@@ -1,9 +1,11 @@
 import { createStore } from 'vuex'
 import userManagement from './userManagement'
+import movies from './movies'
 
 export default createStore({
   modules: {
     userManagement,
+    movies
   },
   state: {
     sidebarVisible: '',

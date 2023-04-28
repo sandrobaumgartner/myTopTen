@@ -41,17 +41,5 @@ export default {
           })
       })
     },
-    async test() {
-      return new Promise((resolve, reject) => {
-        axios
-          .get('/test/user')
-          .then(() => {
-            resolve()
-          })
-          .catch((error) => {
-            reject(error)
-          })
-      })
-    },
   },
 }

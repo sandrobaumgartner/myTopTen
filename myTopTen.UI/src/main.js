@@ -9,6 +9,7 @@ import { iconsSet as icons } from '@/assets/icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
+import VueSuggestion from 'vue-suggestion'
 
 library.add(faUserSecret)
 
@@ -16,6 +17,7 @@ const app = createApp(App)
 app.use(store)
 app.use(router)
 app.use(CoreuiVue)
+app.use(VueSuggestion)
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.provide('icons', icons)
 app.component('CIcon', CIcon)

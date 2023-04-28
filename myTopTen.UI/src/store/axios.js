@@ -12,7 +12,7 @@ instance.interceptors.response.use(
   (error) => {
     if (error.response.status === 401) {
       if (error.response.data.path !== '/api/auth/signin') {
-        router.push('/forbidden')
+        router.push('/login')
       }
     }
     return Promise.reject(error)
