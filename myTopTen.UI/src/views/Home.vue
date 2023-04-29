@@ -9,12 +9,30 @@
       }"
       v-model="searchTerm"
       @input="search"
-      @blur="empty"
+      @focus="search"
     />
     <div class="suggestions" v-if="suggestions.length">
       <ul>
         <li v-for="suggestion in suggestions" :key="suggestion.id">
-          {{ suggestion.title }}
+          {{ suggestion.title }} ({{ suggestion.releaseYear }})
+          <span
+            v-if="suggestion.genre == 'Action'"
+            class="badge rounded-pill text-bg-danger"
+            >{{ suggestion.genre }}</span
+          >
+          <span
+            v-else-if="suggestion.genre == 'Adventure'"
+            class="badge rounded-pill text-bg-success"
+            >{{ suggestion.genre }}</span
+          >
+          <span
+            v-else-if="suggestion.genre == 'Comedy'"
+            class="badge rounded-pill text-bg-warning"
+            >{{ suggestion.genre }}</span
+          >
+          <span v-else class="badge rounded-pill text-bg-primary">{{
+            suggestion.genre
+          }}</span>
         </li>
       </ul>
     </div>
@@ -37,13 +55,13 @@ export default {
     },
   },
   methods: {
+    //@blur="empty"
     search() {
       this.$store
         .dispatch('movies/getMoviesContainingTitle', this.searchTerm)
         .then((response) => {
-          this.suggestions = response;
+          this.suggestions = response
         })
-        console.log(this.suggestions)
     },
     empty() {
       this.suggestions = []
@@ -105,5 +123,9 @@ export default {
 
 .suggestions li:hover {
   background-color: #f5f5f5;
+}
+
+.badge {
+  color: white !important;
 }
 </style>

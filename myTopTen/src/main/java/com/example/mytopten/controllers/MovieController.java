@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "${myTopTen.app.cors}")
@@ -49,7 +50,10 @@ public class MovieController {
     @GetMapping("/byPartOfTitle")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public List<Movie> getMoviesByPartOfTitle(@RequestParam String partOfTitle) {
-        Pageable pageable = PageRequest.of(0, 10);
+        if(partOfTitle.equals("")) {
+            return new ArrayList<>();
+        }
+        Pageable pageable = PageRequest.of(0, 8);
         return movieRepository.getMoviesByPartOfTitle(partOfTitle, pageable)
                 .orElseThrow(() -> new RuntimeException("No movie found with containing string!"));
     }
