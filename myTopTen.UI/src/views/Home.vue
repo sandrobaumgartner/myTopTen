@@ -10,6 +10,7 @@
       v-model="searchTerm"
       @input="search"
       @focus="search"
+      @blur="empty"
     />
     <div class="suggestions" v-if="suggestions.length">
       <ul>
@@ -28,6 +29,31 @@
           <span
             v-else-if="suggestion.genre == 'Comedy'"
             class="badge rounded-pill text-bg-warning"
+            >{{ suggestion.genre }}</span
+          >
+          <span
+            v-else-if="suggestion.genre == 'Animation'"
+            class="badge rounded-pill animation"
+            >{{ suggestion.genre }}</span
+          >
+          <span
+            v-else-if="suggestion.genre == 'Crime'"
+            class="badge rounded-pill crime"
+            >{{ suggestion.genre }}</span
+          >
+          <span
+            v-else-if="suggestion.genre == 'Documentary'"
+            class="badge rounded-pill documentary"
+            >{{ suggestion.genre }}</span
+          >
+          <span
+            v-else-if="suggestion.genre == 'Drama'"
+            class="badge rounded-pill drama"
+            >{{ suggestion.genre }}</span
+          >
+          <span
+            v-else-if="suggestion.genre == 'Horror'"
+            class="badge rounded-pill horror"
             >{{ suggestion.genre }}</span
           >
           <span v-else class="badge rounded-pill text-bg-primary">{{
@@ -54,8 +80,10 @@ export default {
       return this.suggestions.length <= 0
     },
   },
+  mounted() {
+    this.$store.dispatch('userManagement/checkLogin')
+  },
   methods: {
-    //@blur="empty"
     search() {
       this.$store
         .dispatch('movies/getMoviesContainingTitle', this.searchTerm)
@@ -127,5 +155,25 @@ export default {
 
 .badge {
   color: white !important;
+}
+
+.animation {
+  background-color: #FF69B4;
+}
+
+.crime {
+  background-color: black;
+}
+
+.documentary {
+  background-color: green;
+}
+
+.drama {
+  background-color: cadetblue;
+}
+
+.horror {
+  background-color: crimson;
 }
 </style>

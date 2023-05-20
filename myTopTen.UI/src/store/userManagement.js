@@ -41,5 +41,17 @@ export default {
           })
       })
     },
+    async checkLogin() {
+      return new Promise((resolve, reject) => {
+        axios
+          .get('/test/user')
+          .then(() => {
+            resolve()
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
+    },
   },
 }
