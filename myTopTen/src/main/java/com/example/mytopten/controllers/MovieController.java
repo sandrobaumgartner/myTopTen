@@ -42,9 +42,17 @@ public class MovieController {
 
     @GetMapping("/list")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public List<Movie> getMovieListByUser(@RequestParam Long userId) {
-        return userMovieRepository.findMoviesByUserId(userId)
+    public List<MoviePositionModel> getMovieListByUser(@RequestParam Long userId) {
+        List<UserMovie> userMovies = userMovieRepository.findMoviesByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("GetMovieListByUser error"));
+        List<MoviePositionModel> movieList = new ArrayList<>();
+        for (UserMovie userMovie : userMovies) {
+            MoviePositionModel moviePositionModel =
+                    new MoviePositionModel(
+                            userMovie.getMovie().getId(), userMovie.getMovie().getTitle(),userMovie.getPosition());
+            movieList.add(moviePositionModel);
+        }
+        return movieList;
     }
 
     @GetMapping("/byPartOfTitle")
