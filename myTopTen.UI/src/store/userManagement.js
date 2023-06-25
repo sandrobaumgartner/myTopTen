@@ -2,10 +2,17 @@ import axios from './axios.js'
 
 export default {
   namespaced: true,
-  state: {},
+  state: {
+    user: null,
+  },
+  getters: {
+    user(state) {
+      return state.user
+    },
+  },
   mutations: {},
   actions: {
-    async register(state, userData) {
+    async register(store, userData) {
       return new Promise((resolve, reject) => {
         axios
           .post('/auth/signup', userData)
@@ -17,11 +24,12 @@ export default {
           })
       })
     },
-    async login(state, userCredentials) {
+    async login(store, userCredentials) {
       return new Promise((resolve, reject) => {
         axios
           .post('/auth/signin', userCredentials)
           .then(() => {
+            localStorage.setItem('username', userCredentials.username)
             resolve()
           })
           .catch((error) => {
@@ -41,11 +49,26 @@ export default {
           })
       })
     },
-    async test() {
+    async checkLogin() {
       return new Promise((resolve, reject) => {
         axios
           .get('/test/user')
           .then(() => {
+            resolve()
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
+    },
+    async getUser(store) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get('/user', {
+            params: { username: localStorage.getItem('username') },
+          })
+          .then((response) => {
+            store.state.user = response.data
             resolve()
           })
           .catch((error) => {
