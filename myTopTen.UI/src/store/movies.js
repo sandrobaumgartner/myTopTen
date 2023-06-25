@@ -29,5 +29,41 @@ export default {
           })
       })
     },
+    async addMovieToList(store, moviePosition) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post('/movie/addToList', moviePosition)
+          .then(() => {
+            resolve()
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
+    },
+    async deleteMovieFromList(store, movie) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post('/movie/delete', movie)
+          .then(() => {
+            resolve()
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
+    },
+    async updatePositions(store, movies) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post('/movie/updatePositions', movies)
+          .then(() => {
+            resolve()
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
+    },
   },
 }

@@ -27,6 +27,9 @@ public class WebSecurityConfig {
     @Value("${spring.h2.console.path}")
     private String h2ConsolePath;
 
+    @Value("${myTopTen.app.cors}")
+    private String origin;
+
     private final UserDetailsServiceImpl userDetailsService;
 
     private final AuthEntryPointJwt unauthorizedHandler;
@@ -69,6 +72,7 @@ public class WebSecurityConfig {
                 .antMatchers(h2ConsolePath + "/**").permitAll()
                 .anyRequest().authenticated();
 
+        http.cors();
         // fix H2 database console: Refused to display ' in a frame because it set 'X-Frame-Options' to 'deny'
         http.headers().frameOptions().sameOrigin();
 
@@ -79,6 +83,11 @@ public class WebSecurityConfig {
         http.headers().addHeaderWriter(new StaticHeadersWriter(
                 "Access-Control-Allow-Credentials",
                 "true"));
+
+//        http.headers().addHeaderWriter(new StaticHeadersWriter(
+//                "Access-Control-Allow-Origin",
+//                origin
+//        ));
 
         return http.build();
     }

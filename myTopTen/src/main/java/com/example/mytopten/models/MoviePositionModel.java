@@ -6,10 +6,13 @@ public class MoviePositionModel {
     private final String title;
     private final int position;
 
-    public MoviePositionModel(long movieId, String title, int position) {
+    private final int releaseYear;
+
+    public MoviePositionModel(long movieId, String title, int position, int releaseYear) {
         this.movieId = movieId;
         this.title = title;
         this.position = position;
+        this.releaseYear = releaseYear;
     }
 
     public long getMovieId() {
@@ -20,5 +23,8 @@ public class MoviePositionModel {
     }
     public int getPosition() {
         return position;
+    }
+    public int getReleaseYear() {
+        return releaseYear;
     }
 }

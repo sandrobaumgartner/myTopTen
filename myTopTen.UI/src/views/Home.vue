@@ -75,7 +75,14 @@
       <template v-slot:item="{ item }">
         <div class="index">{{ item.position }}.</div>
         <div class="list-item">
-          {{ item.title }}
+          {{ item.title }} ({{ item.releaseYear }})
+          <CButton
+            type="button"
+            class="btn btn-dark text-white delete-button"
+            v-on:click="deleteMovie(item)"
+          >
+            <CIcon :icon="icon.cilTrash" />
+          </CButton>
         </div>
       </template>
     </draggable>
@@ -115,19 +122,23 @@ export default {
     this.$store.dispatch('userManagement/checkLogin')
   },
   mounted() {
-    this.$store.dispatch('userManagement/getUser').then(() => {
-      this.$store
-        .dispatch(
-          'movies/getMovieListByUserId',
-          this.$store.getters['userManagement/user'].id,
-        )
-        .then((response) => {
-          this.movieList = response
-          this.showList = true
-        })
-    })
+    this.getMoviesForUser()
   },
   methods: {
+    getMoviesForUser() {
+      this.showList = false
+      this.$store.dispatch('userManagement/getUser').then(() => {
+        this.$store
+          .dispatch(
+            'movies/getMovieListByUserId',
+            this.$store.getters['userManagement/user'].id,
+          )
+          .then((response) => {
+            this.movieList = response
+            this.showList = true
+          })
+      })
+    },
     search() {
       this.$store
         .dispatch('movies/getMoviesContainingTitle', this.searchTerm)
@@ -141,18 +152,44 @@ export default {
       }, 200)
     },
     addMovieToList(movie) {
-      if (this.movieList.length < 10) {
-        this.showList = false
-        let moviePosition = {
-          movieId: movie.id,
-          title: movie.title,
-          position: this.movieList.length + 1,
-        }
-        this.movieList.push(moviePosition)
-        this.$nextTick(() => {
-          this.showList = true
-        })
+      console.log('movie: ', movie)
+      movie.position = this.movieList.length + 1
+      let moviePositionModel = {
+        movieId: movie.id,
+        position: movie.position,
       }
+
+      if (this.movieList.length < 10) {
+        this.$store
+          .dispatch('movies/addMovieToList', moviePositionModel)
+          .then(() => {
+            this.showList = false
+            let moviePosition = {
+              movieId: movie.id,
+              title: movie.title,
+              position: movie.position,
+              releaseYear: movie.releaseYear
+            }
+
+            this.movieList.push(moviePosition)
+            this.$nextTick(() => {
+              this.showList = true
+            })
+          })
+      } else {
+        //TODO error
+        console.log('ERROR')
+      }
+    },
+    deleteMovie(movie) {
+      let deleteMovie = {
+        movieId: movie.movieId,
+      }
+      this.$store
+        .dispatch('movies/deleteMovieFromList', deleteMovie)
+        .then(() => {
+          this.getMoviesForUser()
+        })
     },
   },
   watch: {
@@ -162,6 +199,7 @@ export default {
         movie.position = count
         count++
       })
+      this.$store.dispatch('movies/updatePositions', this.movieList)
     },
   },
 }
@@ -266,11 +304,18 @@ export default {
   margin: 5px;
   font-size: x-large;
   text-align: center;
-  background-color: #ff69b4;
+  background-color: lightgrey;
+  border-radius: 10px;
 }
 
 .plus-button {
   float: right;
   padding: 0 5px 0 5px;
+}
+
+.delete-button {
+  float: right;
+  padding: 0 5px 0 5px;
+  margin-top: 5px;
 }
 </style>
