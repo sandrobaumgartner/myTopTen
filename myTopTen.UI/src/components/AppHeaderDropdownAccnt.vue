@@ -3,10 +3,10 @@
     <CDropdownToggle placement="bottom-end" class="py-0" :caret="false">
       <CAvatar :src="avatar" size="md" />
     </CDropdownToggle>
-    <CDropdownMenu class="p-0">
-      <CDropdownItem class="dropdownItem">
+    <CDropdownMenu>
+      <!-- <CDropdownItem class="dropdownItem">
         <CIcon icon="cil-user" /> Profile
-      </CDropdownItem>
+      </CDropdownItem> -->
       <CDropdownItem v-on:click="logout" class="dropdownItem">
         <CIcon icon="cil-lock-locked" /> Logout
       </CDropdownItem>
