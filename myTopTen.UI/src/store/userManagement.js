@@ -76,5 +76,21 @@ export default {
           })
       })
     },
+    async getUserByPartOfUsername(store, partOfUsername) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get('/user/byPartOfUsername', {
+            params: {
+              partOfUsername,
+            },
+          })
+          .then((response) => {
+            resolve(response.data)
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
+    },
   },
 }
