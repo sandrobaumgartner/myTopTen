@@ -71,7 +71,12 @@
         </ul>
       </div>
     </div>
-    <draggable v-if="showList" v-model="movieList" class="draggable">
+    <draggable
+      v-if="showList"
+      v-model="movieList"
+      :transition="200"
+      class="draggable"
+    >
       <template v-slot:item="{ item }">
         <div class="index">{{ item.position }}.</div>
         <div class="list-item">
@@ -168,7 +173,7 @@ export default {
               movieId: movie.id,
               title: movie.title,
               position: movie.position,
-              releaseYear: movie.releaseYear
+              releaseYear: movie.releaseYear,
             }
 
             this.movieList.push(moviePosition)
@@ -176,9 +181,6 @@ export default {
               this.showList = true
             })
           })
-      } else {
-        //TODO error
-        console.log('ERROR')
       }
     },
     deleteMovie(movie) {
