@@ -157,7 +157,6 @@ export default {
       }, 200)
     },
     addMovieToList(movie) {
-      console.log('movie: ', movie)
       movie.position = this.movieList.length + 1
       let moviePositionModel = {
         movieId: movie.id,
