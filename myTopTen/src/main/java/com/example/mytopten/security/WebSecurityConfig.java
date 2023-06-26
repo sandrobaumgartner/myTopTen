@@ -84,11 +84,6 @@ public class WebSecurityConfig {
                 "Access-Control-Allow-Credentials",
                 "true"));
 
-//        http.headers().addHeaderWriter(new StaticHeadersWriter(
-//                "Access-Control-Allow-Origin",
-//                origin
-//        ));
-
         return http.build();
     }
 }
