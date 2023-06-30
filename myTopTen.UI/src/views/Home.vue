@@ -74,7 +74,7 @@
     <draggable
       v-if="showList"
       v-model="movieList"
-      :transition="200"
+      :transition="'200'"
       class="draggable"
     >
       <template v-slot:item="{ item }">

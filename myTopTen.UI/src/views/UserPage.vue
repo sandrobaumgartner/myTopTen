@@ -26,6 +26,7 @@ export default {
   },
   methods: {
     getMoviesForUser() {
+      this.userId = this.$route.params.userId
       this.showList = false
       this.$store
         .dispatch('movies/getMovieListByUserId', this.userId)
@@ -33,6 +34,13 @@ export default {
           this.movieList = response
           this.showList = true
         })
+    },
+  },
+  watch: {
+    $route() {
+      setTimeout(() => {
+        this.getMoviesForUser()
+      }, 200)
     },
   },
 }
